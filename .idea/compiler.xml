@@ -2,12 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-util" />
         <module name="model" />
+        <module name="service-product" />
         <module name="service-util" />
       </profile>
     </annotationProcessing>
@@ -20,6 +22,7 @@
       <module name="gmall-parent" options="-parameters" />
       <module name="model" options="-parameters" />
       <module name="service" options="-parameters" />
+      <module name="service-product" options="-parameters" />
       <module name="service-util" options="-parameters" />
     </option>
   </component>
