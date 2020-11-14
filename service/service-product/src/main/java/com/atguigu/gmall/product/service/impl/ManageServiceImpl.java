@@ -8,6 +8,7 @@
 //import com.atguigu.gmall.model.product.*;
 //import com.atguigu.gmall.product.mapper.*;
 //import com.atguigu.gmall.product.service.ManageService;
+//import com.atguigu.gmall.product.service.RabbitService;
 //import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 //import com.baomidou.mybatisplus.core.metadata.IPage;
 //import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -224,7 +225,7 @@
 //    //上架
 //    @Override
 //    public void onSale(Long skuId) {
-//        //1:更新 库存 上架状态
+//        //1:更新 库存 上架状态d
 //        SkuInfo skuInfo = new SkuInfo();
 //        skuInfo.setId(skuId);
 //        skuInfo.setIsSale(1);

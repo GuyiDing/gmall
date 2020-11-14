@@ -1,0 +1,36 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+target/
+.idea/
+*.iml
+/**/.iml
+/**/.DS_Store
+/**/.settings/
+/**/.project
+/**/.classpath
+**/rebel.xml
+/**/.externalToolBuilders/
+/**/.yml
+application.properties
+.gitignore
+rebel.xml
+test/
+
+# IntelliJ project files
+.idea
+
+out
+gen
+common/common-util/src/main/resources/
+common/common-util/src/test/
+common/common-util/target/
+common/service-util/src/main/resources/
+common/service-util/src/test/
+common/service-util/target/
+model/src/main/resources/
+model/src/test/
+model/target/
+service/service-product/service-product.iml
+service/service-product/src/test/
+service/service-product/target/

@@ -18,6 +18,7 @@ public class GmallException extends RuntimeException {
     private Integer code;
 
     /**
+     *
      * 通过状态码和错误消息创建异常对象
      * @param message
      * @param code

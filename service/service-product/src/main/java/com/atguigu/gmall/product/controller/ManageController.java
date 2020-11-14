@@ -20,6 +20,7 @@ import java.util.List;
 //@CrossOrigin
 public class ManageController {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private ManageService manageService;
 

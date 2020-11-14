@@ -17,7 +17,7 @@ spring:
     username: admin
     password: admin
   redis:
-    host: localhost
+    host: 192.168.204.130
     port: 6379
     database: 0
     timeout: 1800000
@@ -33,7 +33,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/gmall_product?characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: 123456
     hikari:
       connection-test-query: SELECT 1
       connection-timeout: 60000
