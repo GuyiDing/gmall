@@ -6,11 +6,13 @@
 
     <groupId>com.atguigu.gmall</groupId>
     <artifactId>gmall-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>1.0</version>
     <modules>
         <module>common</module>
         <module>model</module>
         <module>service</module>
+        <module>server-gateway</module>
     </modules>
 
     <!--引入spring boot 父工程-->
@@ -21,7 +23,7 @@
     </parent>
 
     <!--父工程-->
-    <packaging>pom</packaging>
+
     <!--定义jar包的版本号-->
     <properties>
         <java.version>1.8</java.version>

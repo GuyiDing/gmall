@@ -4,20 +4,20 @@ server:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath:com/atguigu/service/*/mapper/*.xml
+  mapper-locations: classpath:xml/*.xml
 
 spring:
   cloud:
     sentinel:
       transport:
-        dashboard: http://127.0.0.1:8080
+        dashboard: http://192.168.200.128:8858
   rabbitmq:
     host: 47.93.118.241
     port: 9672
     username: admin
     password: admin
   redis:
-    host: 192.168.204.130
+    host: 192.168.200.128
     port: 6379
     database: 0
     timeout: 1800000
@@ -31,9 +31,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/gmall_product?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.200.128:3306/gmall_product?characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: root
     hikari:
       connection-test-query: SELECT 1
       connection-timeout: 60000
