@@ -3,11 +3,23 @@ package com.atguigu.gmall.product.service.impl;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
 import com.atguigu.gmall.product.service.ManagerService;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.csource.common.MyException;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.StorageClient1;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,7 +40,18 @@ public class ManagerServiceImpl implements ManagerService {
     private BaseAttrInfoMapper baseAttrInfoMapper;
     @Autowired
     private BaseAttrValueMapper baseAttrValueMapper;
-
+    @Autowired
+    private BaseTrademarkMapper baseTrademarkMapper;
+    @Autowired
+    private BaseSaleAttrMapper baseSaleAttrMapper;
+    @Autowired
+    private SpuInfoMapper spuInfoMapper;
+    @Autowired
+    private SpuImageMapper spuImageMapper;
+    @Autowired
+    private SpuSaleAttrMapper spuSaleAttrMapper;
+    @Autowired
+    private SpuSaleAttrValueMapper spuSaleAttrValueMapper;
 
     @Override
     public List<BaseCategory1> getCategory1() {
@@ -59,7 +82,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     @Transactional
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
-        if (baseAttrInfo.getId() == null) {
+        if (baseAttrInfo.getId() != null) {
             // 修改数据
             baseAttrInfoMapper.updateById(baseAttrInfo);
         } else {
@@ -71,15 +94,15 @@ public class ManagerServiceImpl implements ManagerService {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("attr_id", baseAttrInfo.getId());
         baseAttrValueMapper.delete(queryWrapper);
-//
-//
-//        List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
-//        if (attrValueList.size() > 0 && attrValueList != null) {
-//            for (BaseAttrValue attrValue : attrValueList) {
-//                attrValue.setAttrId(baseAttrInfo.getId());
-//                baseAttrValueMapper.insert(attrValue);
-//            }
-//        }
+
+
+        List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
+        if (attrValueList.size() > 0 && attrValueList != null) {
+            attrValueList.forEach(baseAttrValue -> {
+                baseAttrValue.setAttrId(baseAttrInfo.getId());
+                baseAttrValueMapper.insert(baseAttrValue);
+            });
+        }
 
 
     }
@@ -91,4 +114,84 @@ public class ManagerServiceImpl implements ManagerService {
         return baseAttrValueMapper.selectList(queryWrapper);
 
     }
+
+    @Override
+    public IPage<BaseTrademark> baseTrademark(Integer page, Integer limit) {
+
+        return baseTrademarkMapper.selectPage(new Page<>(page, limit), null);
+
+    }
+
+    @Override
+    public List<BaseTrademark> getTrademarkList() {
+
+        return baseTrademarkMapper.selectList(null);
+    }
+
+    @Value("${fileServer.url}")
+    private String fileUrl;
+
+    @Override
+    public String fileUpload(MultipartFile file) throws IOException, MyException {
+        System.out.println("fileUrl = " + fileUrl);
+
+        String path = ClassUtils.getDefaultClassLoader().getResource("tracker.conf").getPath();
+        ClientGlobal.init(path);
+        TrackerClient trackerClient = new TrackerClient();
+
+        TrackerServer connection = trackerClient.getConnection();
+
+        //3:连接存储节点Storage
+
+        StorageClient1 storageClient1 = new StorageClient1(connection, null);
+        String originalFilename = file.getOriginalFilename();
+        System.out.println("originalFilename = " + originalFilename);
+        // 获取文件后缀名
+        String s = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String imgPath = storageClient1.upload_file1(file.getBytes(), s, null);
+        System.out.println("imgPath = " + imgPath);
+        imgPath = fileUrl + imgPath;
+        return imgPath;
+    }
+
+    @Override
+    public List<BaseSaleAttr> getBaseSaleAttrList() {
+        return baseSaleAttrMapper.selectList(null);
+    }
+
+    @Override
+    public void saveSpuInfo(SpuInfo spuInfo) {
+        spuInfoMapper.insert(spuInfo);
+        List<SpuImage> spuImageList = spuInfo.getSpuImageList();
+        if (spuImageList.size() > 0 && spuImageList != null) {
+            spuImageList.forEach(spuImage -> {
+                spuImageMapper.insert(spuImage);
+            });
+        }
+        List<SpuSaleAttr> spuSaleAttrList = spuInfo.getSpuSaleAttrList();
+        if (spuSaleAttrList.size() > 0 && spuSaleAttrList != null) {
+            spuSaleAttrList.forEach(spuSaleAttr -> {
+                spuSaleAttrMapper.insert(spuSaleAttr);
+                List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
+                spuSaleAttrValueList.forEach(spuSaleAttrValue -> {
+                    spuSaleAttrValueMapper.insert(spuSaleAttrValue);
+                });
+
+
+            });
+        }
+
+
+
+    }
+
+    @Override
+    public IPage<SpuInfo> getSpu(Page<SpuInfo> spuInfoPage, SpuInfo spuInfo) {
+        QueryWrapper querywrapper = new QueryWrapper();
+        querywrapper.eq("category3_id", spuInfo.getCategory3Id());
+
+        return spuInfoMapper.selectPage(spuInfoPage, querywrapper);
+    }
+
+
 }

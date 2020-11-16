@@ -3,7 +3,10 @@ package com.atguigu.gmall.product.controller;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.service.ManagerService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +20,7 @@ import java.util.List;
 
 
 @Api(tags = "商品基础属性接口")
-@CrossOrigin
+//@CrossOrigin
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 @RequestMapping("/admin/product")
@@ -65,5 +68,44 @@ public class ManagerController {
         return Result.ok(list);
     }
 
+    @GetMapping("baseTrademark/{page}/{limit}")
+    public Result baseTrademark(@PathVariable("page") Integer page,
+                                @PathVariable("limit") Integer limit) {
+
+        IPage<BaseTrademark> iPage =  managerService.baseTrademark(page, limit);
+        return Result.ok(iPage);
+    }
+
+    @GetMapping("baseTrademark/getTrademarkList")
+    public Result getTrademarkList() {
+        List<BaseTrademark> list = managerService.getTrademarkList();
+
+
+        return Result.ok(list);
+    }
+
+    @GetMapping("baseSaleAttrList")
+    public Result getBaseSaleAttrList() {
+        List<BaseSaleAttr> baseSaleAttrList = managerService.getBaseSaleAttrList();
+
+        return Result.ok(baseSaleAttrList);
+    }
+
+    @PostMapping("saveSpuInfo")
+    public Result saveSpuInfo(@RequestBody SpuInfo spuInfo) {
+        managerService.saveSpuInfo(spuInfo);
+
+        return Result.ok();
+    }
+
+    @GetMapping("{page}/{limit}")
+    public Result get(@PathVariable("page") Integer page,
+                      @PathVariable("limit")Integer limit,
+                      SpuInfo spuInfo) {
+        Page<SpuInfo> spuInfoPage = new Page<>(page,limit);
+        IPage<SpuInfo> iPage = managerService.getSpu(spuInfoPage, spuInfo);
+
+        return Result.ok(iPage);
+    }
 
 }
