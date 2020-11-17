@@ -36,4 +36,10 @@ public interface ManagerService {
     void saveSpuInfo(SpuInfo spuInfo);
 
     IPage<SpuInfo> getSpu(Page<SpuInfo> spuInfoPage, SpuInfo spuInfo);
+
+    List<SpuImage> spuImageList(Long spuId);
+
+    List<SpuSaleAttr> spuSaleAttrList(Long spuId);
+
+    void saveSkuInfo(SkuInfo skuInfo);
 }

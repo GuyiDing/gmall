@@ -79,8 +79,6 @@ public class ManagerController {
     @GetMapping("baseTrademark/getTrademarkList")
     public Result getTrademarkList() {
         List<BaseTrademark> list = managerService.getTrademarkList();
-
-
         return Result.ok(list);
     }
 
@@ -108,4 +106,21 @@ public class ManagerController {
         return Result.ok(iPage);
     }
 
+    @GetMapping("spuImageList/{spuId}")
+    public Result spuImageList(@PathVariable("spuId") Long spuId) {
+        List<SpuImage> list = managerService.spuImageList(spuId);
+        return Result.ok(list);
+    }
+
+    @GetMapping("spuSaleAttrList/{spuId}")
+    public Result spuSaleAttrList(@PathVariable("spuId") Long spuId) {
+        List<SpuSaleAttr> list = managerService.spuSaleAttrList(spuId);
+        return Result.ok(list);
+    }
+
+    @GetMapping("saveSkuInfo")
+    public Result saveSkuInfo(@RequestBody SkuInfo skuInfo) {
+        managerService.saveSkuInfo(skuInfo);
+        return Result.ok();
+    }
 }

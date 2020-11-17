@@ -7,10 +7,10 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.200.128:8848
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: src/main/java #重启目录
-      exclude: WEB-INF/**
-  freemarker:
-    cache: false
+#  devtools:
+#    restart:
+#      enabled: true
+#      additional-paths: src/main/java #重启目录
+#      exclude: WEB-INF/**
+#  freemarker:
+#    cache: false

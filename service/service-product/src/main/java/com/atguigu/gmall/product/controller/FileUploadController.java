@@ -29,8 +29,7 @@ public class FileUploadController {
     public Result fileUpload(MultipartFile file) throws IOException, MyException {
         String  imgUrl  = managerService.fileUpload(file);
 
-
-        return Result.ok();
+        return Result.ok(imgUrl);
     }
 
 

@@ -3,7 +3,6 @@ package com.atguigu.gmall.product.service.impl;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
 import com.atguigu.gmall.product.service.ManagerService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -165,22 +164,23 @@ public class ManagerServiceImpl implements ManagerService {
         List<SpuImage> spuImageList = spuInfo.getSpuImageList();
         if (spuImageList.size() > 0 && spuImageList != null) {
             spuImageList.forEach(spuImage -> {
+                spuImage.setSpuId(spuInfo.getId());
                 spuImageMapper.insert(spuImage);
             });
         }
         List<SpuSaleAttr> spuSaleAttrList = spuInfo.getSpuSaleAttrList();
         if (spuSaleAttrList.size() > 0 && spuSaleAttrList != null) {
             spuSaleAttrList.forEach(spuSaleAttr -> {
+                spuSaleAttr.setSpuId(spuInfo.getId());
                 spuSaleAttrMapper.insert(spuSaleAttr);
                 List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
                 spuSaleAttrValueList.forEach(spuSaleAttrValue -> {
+                    spuSaleAttrValue.setSpuId(spuInfo.getId());
+                    spuSaleAttrValue.setSaleAttrName(spuSaleAttr.getSaleAttrName());
                     spuSaleAttrValueMapper.insert(spuSaleAttrValue);
                 });
-
-
             });
         }
-
 
 
     }
@@ -191,6 +191,53 @@ public class ManagerServiceImpl implements ManagerService {
         querywrapper.eq("category3_id", spuInfo.getCategory3Id());
 
         return spuInfoMapper.selectPage(spuInfoPage, querywrapper);
+    }
+
+    @Override
+    public List<SpuImage> spuImageList(Long spuId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("spu_id", spuId);
+        return spuImageMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<SpuSaleAttr> spuSaleAttrList(Long spuId) {
+
+        return spuSaleAttrMapper.spuSaleAttrList(spuId);
+    }
+
+
+    @Autowired
+    private SkuInfoMapper skuInfoMapper;
+
+    @Autowired
+    private SkuImageMapper skuImageMapper;
+    @Autowired
+    private SkuAttrValueMapper skuAttrValueMapper;
+    @Autowired
+    private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
+
+    @Transactional
+    @Override
+    public void saveSkuInfo(SkuInfo skuInfo) {
+        skuInfoMapper.insert(skuInfo);
+        List<SkuImage> skuImageList = skuInfo.getSkuImageList();
+        skuImageList.forEach(skuImage -> {
+            skuImage.setSkuId(skuInfo.getId());
+            skuImageMapper.insert(skuImage);
+        });
+
+        skuInfo.getSkuAttrValueList().forEach(skuAttrValue -> {
+            skuAttrValue.setSkuId(skuInfo.getId());
+            skuAttrValueMapper.insert(skuAttrValue);
+        });
+
+        skuInfo.getSkuSaleAttrValueList().forEach(skuSaleAttrValue -> {
+            skuSaleAttrValue.setSpuId(skuInfo.getSpuId());
+            skuSaleAttrValue.setSkuId(skuInfo.getId());
+            skuSaleAttrValueMapper.insert(skuSaleAttrValue);
+        });
+
     }
 
 

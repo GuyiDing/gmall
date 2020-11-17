@@ -3,7 +3,7 @@ server:
 
 
 fileServer:
-  url: http://192.168.200.128/
+  url: http://192.168.200.128:8080/
 
 
 mybatis-plus:
@@ -11,6 +11,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     auto-mapping-behavior: full
   mapper-locations: classpath:xml/*.xml
+  type-aliases-package: com.atguigu.gmall.model
 
 spring:
   cloud:
