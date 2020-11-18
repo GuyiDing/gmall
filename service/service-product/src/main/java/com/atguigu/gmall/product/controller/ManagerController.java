@@ -6,7 +6,6 @@ import com.atguigu.gmall.product.service.ManagerService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,7 +71,7 @@ public class ManagerController {
     public Result baseTrademark(@PathVariable("page") Integer page,
                                 @PathVariable("limit") Integer limit) {
 
-        IPage<BaseTrademark> iPage =  managerService.baseTrademark(page, limit);
+        IPage<BaseTrademark> iPage = managerService.baseTrademark(page, limit);
         return Result.ok(iPage);
     }
 
@@ -98,9 +97,9 @@ public class ManagerController {
 
     @GetMapping("{page}/{limit}")
     public Result get(@PathVariable("page") Integer page,
-                      @PathVariable("limit")Integer limit,
+                      @PathVariable("limit") Integer limit,
                       SpuInfo spuInfo) {
-        Page<SpuInfo> spuInfoPage = new Page<>(page,limit);
+        Page<SpuInfo> spuInfoPage = new Page<>(page, limit);
         IPage<SpuInfo> iPage = managerService.getSpu(spuInfoPage, spuInfo);
 
         return Result.ok(iPage);
@@ -118,9 +117,29 @@ public class ManagerController {
         return Result.ok(list);
     }
 
-    @GetMapping("saveSkuInfo")
+    @PostMapping("saveSkuInfo")
     public Result saveSkuInfo(@RequestBody SkuInfo skuInfo) {
         managerService.saveSkuInfo(skuInfo);
         return Result.ok();
     }
+
+    @GetMapping("onSale/{skuId}")
+    public Result onSale(@PathVariable("skuId") Long skuId) {
+        managerService.onSale(skuId);
+        return Result.ok();
+    }
+
+    @GetMapping("cancelSale/{skuId}")
+    public Result cancelSale(@PathVariable("skuId") Long skuId) {
+        managerService.cancelSale(skuId);
+        return Result.ok();
+    }
+
+    @GetMapping("list/{page}/{limit}")
+    public Result list(@PathVariable("page") Integer page,
+                       @PathVariable("limit") Integer limit) {
+        IPage<SkuInfo> list = managerService.list(page, limit);
+        return Result.ok(list);
+    }
+
 }

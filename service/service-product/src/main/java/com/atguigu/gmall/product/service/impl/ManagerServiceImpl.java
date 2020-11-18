@@ -240,5 +240,43 @@ public class ManagerServiceImpl implements ManagerService {
 
     }
 
+    @Override
+    public void onSale(Long skuId) {
+        SkuInfo skuInfo = new SkuInfo();
+        skuInfo.setIsSale(1);
+        skuInfo.setId(skuId);
+        skuInfoMapper.updateById(skuInfo);
+        // TODO: 2020/11/17 保存库存信息到索引库,即elasticsearch
+    }
+
+    @Override
+    public void cancelSale(Long skuId) {
+        SkuInfo skuInfo = new SkuInfo();
+        skuInfo.setIsSale(0);
+        skuInfo.setId(skuId);
+        skuInfoMapper.updateById(skuInfo);
+        // TODO: 2020/11/17 从索引库中删除库存信息
+    }
+
+    @Override
+    public IPage<SkuInfo> list(Integer page, Integer limit) {
+        return skuInfoMapper.selectPage(new Page<>(page, limit), null);
+    }
+
+    @Override
+    public SkuInfo getSkuInfo(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id",skuId)));
+        return skuInfo;
+    }
+
+    @Autowired
+    private BaseCategoryViewMapper baseCategoryViewMapper;
+    @Override
+    public BaseCategoryView getCategoryViewByCategory3Id(Long category3Id) {
+
+        return baseCategoryViewMapper.selectById(category3Id);
+    }
+
 
 }

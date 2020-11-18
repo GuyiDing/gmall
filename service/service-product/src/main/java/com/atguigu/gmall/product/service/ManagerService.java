@@ -1,6 +1,5 @@
 package com.atguigu.gmall.product.service;
 
-import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,4 +41,14 @@ public interface ManagerService {
     List<SpuSaleAttr> spuSaleAttrList(Long spuId);
 
     void saveSkuInfo(SkuInfo skuInfo);
+
+    void onSale(Long skuId);
+
+    void cancelSale(Long skuId);
+
+    IPage<SkuInfo> list(Integer page, Integer limit);
+
+    SkuInfo getSkuInfo(Long skuId);
+
+    BaseCategoryView getCategoryViewByCategory3Id(Long category3Id);
 }
