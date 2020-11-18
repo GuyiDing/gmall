@@ -66,7 +66,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public List<BaseCategory3> getCategory3(Long id) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<BaseCategory3> queryWrapper = new QueryWrapper();
         queryWrapper.eq("category2_id", id);
         return baseCategory3Mapper.selectList(queryWrapper);
     }
@@ -181,8 +181,6 @@ public class ManagerServiceImpl implements ManagerService {
                 });
             });
         }
-
-
     }
 
     @Override
