@@ -14,7 +14,25 @@
         from spu_sale_attr ssa
                  inner join spu_sale_attr_value ssav
                             on ssav.spu_id = ssa.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id
-        where ssa.spu_id= #{spuId};
-
+        where ssa.spu_id = #{spuId};
+    </select>
+    <resultMap id="selectSpuSaleAttrListCheckBySkuIdMap" type="com.atguigu.gmall.model.product.SpuSaleAttr">
+        <id property="id" column="id"></id>
+        <collection property="spuSaleAttrValueList" ofType="com.atguigu.gmall.model.product.SpuSaleAttrValue">
+            <id property="id" column="vId"/>
+        </collection>
+    </resultMap>
+    <select id="selectSpuSaleAttrListCheckBySkuId" resultMap="selectSpuSaleAttrListCheckBySkuIdMap">
+        select ssa.*,
+               ssav.sale_attr_value_name,
+               ssav.id vId,
+               if(skv.sku_id is null, 0, 1) is_checked
+        from spu_sale_attr ssa
+                 inner join spu_sale_attr_value ssav
+                            on ssa.spu_id = ssav.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id
+                 left join sku_sale_attr_value skv
+                           on ssav.id = skv.sale_attr_value_id and skv.sku_id = #{skuId}
+        where ssa.spu_id = #{spuId}
+        order by ssa.base_sale_attr_id
     </select>
 </mapper>

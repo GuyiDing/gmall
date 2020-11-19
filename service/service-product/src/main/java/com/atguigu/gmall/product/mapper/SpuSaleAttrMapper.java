@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface SpuSaleAttrMapper extends BaseMapper<SpuSaleAttr> {
     List<SpuSaleAttr> spuSaleAttrList(@Param("spuId") Long spuId);
+
+    List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(@Param("skuId") Long skuId, @Param("spuId") Long spuId);
 }

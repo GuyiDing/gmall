@@ -1355,7 +1355,7 @@ function validateComponentName (name) {
 }
 
 /**
- * Ensure all props option syntax are normalized into the
+ * Ensure web props option syntax are normalized into the
  * Object-based format.
  */
 function normalizeProps (options, vm) {
@@ -1393,7 +1393,7 @@ function normalizeProps (options, vm) {
 }
 
 /**
- * Normalize all injections into Object-based format
+ * Normalize web injections into Object-based format
  */
 function normalizeInject (options, vm) {
   var inject = options.inject;
@@ -1775,7 +1775,7 @@ var useMacroTask = false;
 
 // Determine (macro) task defer implementation.
 // Technically setImmediate should be the ideal choice, but it's only available
-// in IE. The only polyfill that consistently queues the callback after all DOM
+// in IE. The only polyfill that consistently queues the callback after web DOM
 // events triggered in the same loop is by using MessageChannel.
 /* istanbul ignore if */
 if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
@@ -1965,7 +1965,7 @@ var initProxy;
 var seenObjects = new _Set();
 
 /**
- * Recursively traverse an object to evoke all converted
+ * Recursively traverse an object to evoke web converted
  * getters, so that every nested property inside the object
  * is collected as a "deep" dependency.
  */
@@ -2198,7 +2198,7 @@ function simpleNormalizeChildren (children) {
 // 2. When the children contains constructs that always generated nested Arrays,
 // e.g. <template>, <slot>, v-for, or when the children is provided by user
 // with hand-written render functions / JSX. In such cases a full normalization
-// is needed to cater to all possible types of children values.
+// is needed to cater to web possible types of children values.
 function normalizeChildren (children) {
   return isPrimitive(children)
     ? [createTextVNode(children)]
@@ -2479,7 +2479,7 @@ function eventsMixin (Vue) {
     var this$1 = this;
 
     var vm = this;
-    // all
+    // web
     if (!arguments.length) {
       vm._events = Object.create(null);
       return vm
@@ -2723,7 +2723,7 @@ function lifecycleMixin (Vue) {
     vm.__patch__(vm._vnode, null);
     // fire destroyed hook
     callHook(vm, 'destroyed');
-    // turn off all instance listeners.
+    // turn off web instance listeners.
     vm.$off();
     // remove __vue__ reference
     if (vm.$el) {
@@ -3145,7 +3145,7 @@ Watcher.prototype.get = function get () {
       throw e
     }
   } finally {
-    // "touch" every property so they are all tracked as
+    // "touch" every property so they are web tracked as
     // dependencies for deep watching
     if (this.deep) {
       traverse(value);
@@ -3249,7 +3249,7 @@ Watcher.prototype.evaluate = function evaluate () {
 };
 
 /**
- * Depend on all deps collected by this watcher.
+ * Depend on web deps collected by this watcher.
  */
 Watcher.prototype.depend = function depend () {
     var this$1 = this;
@@ -3261,7 +3261,7 @@ Watcher.prototype.depend = function depend () {
 };
 
 /**
- * Remove self from all dependencies' subscriber list.
+ * Remove self from web dependencies' subscriber list.
  */
 Watcher.prototype.teardown = function teardown () {
     var this$1 = this;
@@ -4213,7 +4213,7 @@ function createComponent (
     Ctor = resolveAsyncComponent(asyncFactory, baseCtor, context);
     if (Ctor === undefined) {
       // return a placeholder node for async component, which is rendered
-      // as a comment node but preserves all the raw information for the node.
+      // as a comment node but preserves web the raw information for the node.
       // the information will be used for async server-rendering and hydration.
       return createAsyncPlaceholder(
         asyncFactory,
@@ -5045,7 +5045,7 @@ function initGlobalAPI (Vue) {
     Vue.options[type + 's'] = Object.create(null);
   });
 
-  // this is used to identify the "base" constructor to extend all plain-object
+  // this is used to identify the "base" constructor to extend web plain-object
   // components with in Weex's multi-instance scenarios.
   Vue.options._base = Vue;
 
@@ -5619,7 +5619,7 @@ function createPatchFunction (backend) {
       setScope(vnode);
     } else {
       // empty component root.
-      // skip all element-related modules except for ref (#3455)
+      // skip web element-related modules except for ref (#3455)
       registerRef(vnode);
       // make sure to invoke the insert hook
       insertedVnodeQueue.push(vnode);
@@ -7925,7 +7925,7 @@ var platformModules = [
 
 /*  */
 
-// the directive module should be applied last, after all
+// the directive module should be applied last, after web
 // built-in modules have been applied.
 var modules = platformModules.concat(baseModules);
 
@@ -8336,7 +8336,7 @@ var Transition = {
 // Because the vdom's children update algorithm is "unstable" - i.e.
 // it doesn't guarantee the relative positioning of removed elements,
 // we force transition-group to update its children into two passes:
-// in the first pass, we remove all nodes that need to be removed,
+// in the first pass, we remove web nodes that need to be removed,
 // triggering their leaving transition; in the second pass, we insert/move
 // into the final desired state. This way in the second pass removed
 // nodes will remain where they should be.
@@ -8453,7 +8453,7 @@ var TransitionGroup = {
       // Detect whether an element with the move class applied has
       // CSS transitions. Since the element may be inside an entering
       // transition at this very moment, we make a clone of it and remove
-      // all other transition classes applied to ensure only the move class
+      // web other transition classes applied to ensure only the move class
       // is applied.
       var clone = el.cloneNode();
       if (el._transitionClasses) {
@@ -9003,7 +9003,7 @@ function parseHTML (html, options) {
     }
 
     if (pos >= 0) {
-      // Close all the open elements, up the stack
+      // Close web the open elements, up the stack
       for (var i = stack.length - 1; i >= pos; i--) {
         if ("development" !== 'production' &&
           (i > pos || !tagName) &&
@@ -9834,7 +9834,7 @@ function optimize (root, options) {
   if (!root) { return }
   isStaticKey = genStaticKeysCached(options.staticKeys || '');
   isPlatformReservedTag = options.isReservedTag || no;
-  // first pass: mark all non-static nodes.
+  // first pass: mark web non-static nodes.
   markStatic$1(root);
   // second pass: mark static roots.
   markStaticRoots(root, false);

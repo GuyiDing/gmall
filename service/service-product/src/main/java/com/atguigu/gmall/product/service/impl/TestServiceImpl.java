@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
+@SuppressWarnings("Duplicates")
 @Service
 public class TestServiceImpl implements TestService {
 

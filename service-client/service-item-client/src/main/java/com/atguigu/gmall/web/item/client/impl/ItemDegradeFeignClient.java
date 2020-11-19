@@ -1,8 +1,9 @@
-package com.atguigu.gmall.item.client.impl;
+package com.atguigu.gmall.web.item.client.impl;
 
-import com.atguigu.gmall.common.result.Result;
-import com.atguigu.gmall.item.client.ItemFeignClient;
+import com.atguigu.gmall.web.item.client.ItemFeignClient;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @title: ItemDegradeFeignClient
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ItemDegradeFeignClient implements ItemFeignClient {
+
     @Override
-    public Result getItem(Long skuId) {
-        return Result.fail();
+    public Map<String, Object> getItem(Long skuId) {
+        return null;
     }
 }

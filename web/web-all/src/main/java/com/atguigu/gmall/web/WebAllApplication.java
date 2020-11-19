@@ -1,5 +1,4 @@
-package com.atguigu.gmall.item;
-
+package com.atguigu.gmall.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,10 +11,11 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"com.atguigu.gmall"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages= {"com.atguigu.gmall"})
-public class ServiceItemApplication {
+public class WebAllApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceItemApplication.class, args);
+        SpringApplication.run(WebAllApplication.class, args);
     }
 
 }
+

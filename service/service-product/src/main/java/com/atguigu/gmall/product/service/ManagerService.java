@@ -7,7 +7,9 @@ import org.csource.common.MyException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface ManagerService {
 
@@ -51,4 +53,10 @@ public interface ManagerService {
     SkuInfo getSkuInfo(Long skuId);
 
     BaseCategoryView getCategoryViewByCategory3Id(Long category3Id);
+
+    BigDecimal getPrice(Long skuId);
+
+    List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(Long skuId, Long spuId);
+
+    Map<String,String> getSkuValueIdsMap(Long spuId);
 }

@@ -35,7 +35,7 @@ public class SpuSaleAttr extends BaseEntity {
 	@TableField("sale_attr_name")
 	private String saleAttrName;
 
-	// 销售属性对象集合
+	// 销售属性值集合
 	@TableField(exist = false)
 	List<SpuSaleAttrValue> spuSaleAttrValueList;
 

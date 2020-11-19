@@ -19,7 +19,10 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @title: ManagerServiceImpl
@@ -261,19 +264,46 @@ public class ManagerServiceImpl implements ManagerService {
         return skuInfoMapper.selectPage(new Page<>(page, limit), null);
     }
 
+    @Autowired
+    private BaseCategoryViewMapper baseCategoryViewMapper;
+
     @Override
     public SkuInfo getSkuInfo(Long skuId) {
         SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
-        skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id",skuId)));
+        skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
         return skuInfo;
     }
 
-    @Autowired
-    private BaseCategoryViewMapper baseCategoryViewMapper;
     @Override
     public BaseCategoryView getCategoryViewByCategory3Id(Long category3Id) {
 
         return baseCategoryViewMapper.selectById(category3Id);
+    }
+
+    @Override
+    public BigDecimal getPrice(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        if (skuInfo != null) {
+            return skuInfo.getPrice();
+        }
+        return null;
+    }
+
+    @Override
+    public List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(Long skuId, Long spuId) {
+
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySkuId(skuId, spuId);
+    }
+
+    @Override
+    public Map<String, String> getSkuValueIdsMap(Long spuId) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        List<Map<String, String>> skuValueIdsMap = skuSaleAttrValueMapper.getSkuValueIdsMap(spuId);
+        skuValueIdsMap.forEach(stringStringMap ->
+        {
+            resultMap.put(stringStringMap.get("value_ids"), String.valueOf(stringStringMap.get("sku_id")));
+        });
+        return resultMap;
     }
 
 
