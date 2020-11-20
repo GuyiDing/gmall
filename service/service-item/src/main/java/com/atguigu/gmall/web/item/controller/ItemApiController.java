@@ -23,7 +23,7 @@ public class ItemApiController {
 
     //获取sku详情item
     @GetMapping("{skuId}")
-    public Map getItem(@PathVariable("skuId") Long skuId) {
+    public Map<String,Object> getItem(@PathVariable("skuId") Long skuId) {
 
         return itemService.getItem(skuId);
     }

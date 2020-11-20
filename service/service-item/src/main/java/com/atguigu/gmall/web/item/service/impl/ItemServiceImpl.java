@@ -6,6 +6,7 @@ import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.product.client.ProductFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,10 +20,11 @@ import java.util.Map;
  * @Author LiuXianKun
  * @Date: 2020/11/17 19:54
  */
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    @Resource
+    @Autowired
     private ProductFeignClient productFeignClient;
 
     @Override
@@ -36,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
         map.put("price", price);
         List<SpuSaleAttr> spuSaleAttrList = productFeignClient.selectSpuSaleAttrListCheckBySkuId(skuId, skuInfo.getSpuId());
         map.put("spuSaleAttrList", spuSaleAttrList);
-        Map<String, String> valuesSkuJson = productFeignClient.getSkuValueIdsMap(skuId);
+        Map<String, String> valuesSkuJson = productFeignClient.getSkuValueIdsMap(skuInfo.getSpuId());
         map.put("valuesSkuJson", JSON.toJSONString(valuesSkuJson));
         return map;
     }

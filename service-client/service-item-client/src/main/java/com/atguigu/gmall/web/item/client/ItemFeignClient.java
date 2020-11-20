@@ -13,6 +13,7 @@ public interface ItemFeignClient {
     /**
      * @param skuId
      * @return
+     * 数据汇总
      */
     @GetMapping("/api/item/{skuId}")
     Map<String,Object> getItem(@PathVariable("skuId") Long skuId);

@@ -55,6 +55,7 @@ public class ProductApiController {
                                                                @PathVariable("spuId") Long spuId) {
         return managerService.selectSpuSaleAttrListCheckBySkuId(skuId,spuId);
     }
+
     @GetMapping("inner/getSkuValueIdsMap/{spuId}")
     public Map<String,String> getSkuValueIdsMap(@PathVariable("spuId") Long spuId){
         return managerService.getSkuValueIdsMap(spuId);

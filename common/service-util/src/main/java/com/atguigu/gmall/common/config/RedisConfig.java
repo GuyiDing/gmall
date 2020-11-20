@@ -25,7 +25,7 @@ import java.time.Duration;
  *
  * @author qy
  */
-@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "unchecked", "Duplicates"})
+@SuppressWarnings({"Duplicates", "SpringJavaInjectionPointsAutowiringInspection"})
 @Configuration
 @EnableCaching
 public class RedisConfig {

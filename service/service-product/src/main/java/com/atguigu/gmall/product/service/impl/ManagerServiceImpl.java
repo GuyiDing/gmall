@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
 import com.atguigu.gmall.product.service.ManagerService;
@@ -13,6 +14,7 @@ import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
@@ -267,10 +269,21 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private BaseCategoryViewMapper baseCategoryViewMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public SkuInfo getSkuInfo(Long skuId) {
-        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
-        skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
+        String lockKey = RedisConst.SKUKEY_PREFIX + skuId + RedisConst.SKUKEY_SUFFIX;//解决硬编码的问题
+        SkuInfo skuInfo = new SkuInfo();
+        SkuInfo ifExit = (SkuInfo) redisTemplate.opsForValue().get(lockKey);
+        if (ifExit == null) {
+            skuInfo = skuInfoMapper.selectById(skuId);
+            skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
+            this.redisTemplate.opsForValue().set(lockKey, skuInfo);
+
+        }
+
         return skuInfo;
     }
 
@@ -297,7 +310,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Map<String, String> getSkuValueIdsMap(Long spuId) {
-        HashMap<String, String> resultMap = new HashMap<>();
+        Map<String, String> resultMap = new HashMap<>();
         List<Map<String, String>> skuValueIdsMap = skuSaleAttrValueMapper.getSkuValueIdsMap(spuId);
         skuValueIdsMap.forEach(stringStringMap ->
         {

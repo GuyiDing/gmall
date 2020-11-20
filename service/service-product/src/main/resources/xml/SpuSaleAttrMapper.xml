@@ -33,6 +33,6 @@
                  left join sku_sale_attr_value skv
                            on ssav.id = skv.sale_attr_value_id and skv.sku_id = #{skuId}
         where ssa.spu_id = #{spuId}
-        order by ssa.base_sale_attr_id
+        order by ssa.base_sale_attr_id,ssav.id
     </select>
 </mapper>
