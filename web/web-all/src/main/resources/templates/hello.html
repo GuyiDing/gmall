@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+1:<div th:text="${world}">我是默认值</div><br/>
+2:<p th:text="${world}">我是默认值</p><br/>
+3:<input th:value="${world}"/><br/>
+4:[[${world}]]<br/>
+5:<div th:text="${skuInfo.id}">我是默认值</div><br/>
+6:<div th:each="skuInfo,ooo:${skuInfoList}"><br/>
+     <p th:text="${skuInfo.id}">999</p><p th:text="${ooo.last}">999</p>
+  </div>
+7:<div th:if="${world}== '世界你好'">是</div><br/>
+8:<div th:if="${world}!= '世界你好'">否</div><br/>
+9:<div th:text="(${world}== '世界你好')?'0':'1'"></div><br/>
+10:<div th:text="${session.world}"/><br/>
+11:<div th:text="${world}"/><br/>
+12:<div th:utext="${session.gname}"></div>
+</body>
+</html>

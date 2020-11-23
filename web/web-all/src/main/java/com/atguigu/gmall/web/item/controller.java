@@ -17,11 +17,12 @@ import java.util.Map;
  */
 
 @Controller
+@RequestMapping
 public class controller {
     @Resource
     private ItemFeignClient itemFeignClient;
 
-    @RequestMapping("{skuId}.html")
+    @RequestMapping("/{skuId}.html")
     public String getItem(@PathVariable("skuId") Long skuId, Model model) {
         Map<String, Object> item = itemFeignClient.getItem(skuId);
         model.addAllAttributes(item);

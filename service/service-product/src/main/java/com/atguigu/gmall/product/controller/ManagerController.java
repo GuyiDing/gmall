@@ -135,6 +135,7 @@ public class ManagerController {
         return Result.ok();
     }
 
+
     @GetMapping("list/{page}/{limit}")
     public Result list(@PathVariable("page") Integer page,
                        @PathVariable("limit") Integer limit) {

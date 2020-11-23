@@ -1,6 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
-import com.atguigu.gmall.common.constant.RedisConst;
+import com.atguigu.gmall.common.cache.GmallCache;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
 import com.atguigu.gmall.product.service.ManagerService;
@@ -12,6 +12,7 @@ import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -272,26 +273,47 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
+
+    @GmallCache(prefix = "getSkuInfo")
     @Override
     public SkuInfo getSkuInfo(Long skuId) {
-        String lockKey = RedisConst.SKUKEY_PREFIX + skuId + RedisConst.SKUKEY_SUFFIX;//解决硬编码的问题
-        SkuInfo skuInfo = new SkuInfo();
-        SkuInfo ifExit = (SkuInfo) redisTemplate.opsForValue().get(lockKey);
-        if (ifExit == null) {
-            skuInfo = skuInfoMapper.selectById(skuId);
-            skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
-            this.redisTemplate.opsForValue().set(lockKey, skuInfo);
-
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        if (null != skuInfo) {
+            //根据SkuID查询图片集合
+            skuInfo.setSkuImageList(skuImageMapper.
+                    selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
         }
-
         return skuInfo;
     }
 
+//    @Override  存在三大问题
+//    public SkuInfo getSkuInfo(Long skuId) {
+//        String cacheKey = RedisConst.SKUKEY_PREFIX + skuId + RedisConst.SKUKEY_SUFFIX;//解决硬编码的问题
+//        SkuInfo skuInfo = (SkuInfo) redisTemplate.opsForValue().get(cacheKey);
+//        if (skuInfo == null) {
+//            skuInfo = skuInfoMapper.selectById(skuId);
+//            if (skuInfo != null) {
+//                skuInfo.setSkuImageList(skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id", skuId)));
+//                this.redisTemplate.opsForValue().set(cacheKey, skuInfo, RedisConst.SKUKEY_TIMEOUT +
+//                        new Random().nextInt(2000), TimeUnit.SECONDS); //备份  不应该永久
+//            }
+//            skuInfo = new SkuInfo();  //如果数据库里也没有 则给缓存设置一个过期时间短的空结果  有效防止缓存穿透
+//            this.redisTemplate.opsForValue().set(cacheKey, skuInfo, 5, TimeUnit.MINUTES);
+//
+//        }
+//        return skuInfo;
+//    }
+
+    @GmallCache(prefix = "getCategoryViewByCategory3Id")
     @Override
     public BaseCategoryView getCategoryViewByCategory3Id(Long category3Id) {
 
         return baseCategoryViewMapper.selectById(category3Id);
     }
+
 
     @Override
     public BigDecimal getPrice(Long skuId) {
@@ -303,11 +325,13 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    @GmallCache(prefix = "selectSpuSaleAttrListCheckBySkuId")
     public List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(Long skuId, Long spuId) {
 
         return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySkuId(skuId, spuId);
     }
 
+    @GmallCache(prefix = "getSkuValueIdsMap")
     @Override
     public Map<String, String> getSkuValueIdsMap(Long spuId) {
         Map<String, String> resultMap = new HashMap<>();

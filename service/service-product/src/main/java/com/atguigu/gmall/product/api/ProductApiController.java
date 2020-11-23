@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.api;
 
+import com.atguigu.gmall.common.cache.GmallCache;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.product.SkuImage;
@@ -50,11 +51,13 @@ public class ProductApiController {
         return managerService.getPrice(skuId);
     }
 
+
     @GetMapping("selectSpuSaleAttrListCheckBySkuId/{skuId}/{spuId}")
     public List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(@PathVariable("skuId") Long skuId,
                                                                @PathVariable("spuId") Long spuId) {
         return managerService.selectSpuSaleAttrListCheckBySkuId(skuId,spuId);
     }
+
 
     @GetMapping("inner/getSkuValueIdsMap/{spuId}")
     public Map<String,String> getSkuValueIdsMap(@PathVariable("spuId") Long spuId){
