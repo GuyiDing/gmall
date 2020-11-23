@@ -64,4 +64,11 @@ public class ProductApiController {
         return managerService.getSkuValueIdsMap(spuId);
     }
 
+
+    @GetMapping("inner/getBaseCategoryList")
+    public List<BaseCategoryView> getBaseCategoryList() {
+
+        return managerService.getBaseCategoryList();
+    }
+
 }

@@ -42,4 +42,9 @@ public class ProductFeignClientImpl implements ProductFeignClient {
     public Map<String, String> getSkuValueIdsMap(Long spuId) {
         return null;
     }
+
+    @Override
+    public List<BaseCategoryView> getBaseCategoryList() {
+        return null;
+    }
 }

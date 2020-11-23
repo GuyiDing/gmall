@@ -59,4 +59,7 @@ public interface ManagerService {
     List<SpuSaleAttr> selectSpuSaleAttrListCheckBySkuId(Long skuId, Long spuId);
 
     Map<String,String> getSkuValueIdsMap(Long spuId);
+
+    List<BaseCategoryView> getBaseCategoryList();
+
 }

@@ -343,5 +343,10 @@ public class ManagerServiceImpl implements ManagerService {
         return resultMap;
     }
 
+    @Override
+    public List<BaseCategoryView> getBaseCategoryList() {
+        return baseCategoryViewMapper.selectList(null);
+    }
+
 
 }
