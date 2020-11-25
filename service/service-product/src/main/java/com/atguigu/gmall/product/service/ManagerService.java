@@ -62,4 +62,7 @@ public interface ManagerService {
 
     List<BaseCategoryView> getBaseCategoryList();
 
+    BaseTrademark getTrademark(Long tmId);
+
+    List<BaseAttrInfo> getAttrList(Long skuId);
 }

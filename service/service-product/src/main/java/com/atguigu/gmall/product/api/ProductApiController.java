@@ -1,11 +1,6 @@
 package com.atguigu.gmall.product.api;
 
-import com.atguigu.gmall.common.cache.GmallCache;
-import com.atguigu.gmall.common.result.Result;
-import com.atguigu.gmall.model.product.BaseCategoryView;
-import com.atguigu.gmall.model.product.SkuImage;
-import com.atguigu.gmall.model.product.SkuInfo;
-import com.atguigu.gmall.model.product.SpuSaleAttr;
+import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,5 +65,19 @@ public class ProductApiController {
 
         return managerService.getBaseCategoryList();
     }
+
+    //通过品牌Id 集合来查询数据
+    @GetMapping("inner/getTrademark/{tmId}")
+    public BaseTrademark getTrademark(@PathVariable("tmId") Long tmId) {
+        return managerService.getTrademark(tmId);
+    }
+
+    //通过skuId 集合来查询数据
+    @GetMapping("inner/getAttrList/{skuId}")
+    public List<BaseAttrInfo> getAttrList(@PathVariable("skuId") Long skuId) {
+        return managerService.getAttrList(skuId);
+    }
+
+
 
 }

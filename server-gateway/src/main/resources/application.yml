@@ -33,5 +33,5 @@ spring:
         - id: web-web
           uri: lb://web-web
           predicates:
-            - Host=item.gmall.com
+            - Host=**.gmall.com
 

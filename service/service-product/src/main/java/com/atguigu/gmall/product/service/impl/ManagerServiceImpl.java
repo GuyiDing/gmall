@@ -250,7 +250,6 @@ public class ManagerServiceImpl implements ManagerService {
         skuInfo.setIsSale(1);
         skuInfo.setId(skuId);
         skuInfoMapper.updateById(skuInfo);
-        // TODO: 2020/11/17 保存库存信息到索引库,即elasticsearch
     }
 
     @Override
@@ -259,7 +258,6 @@ public class ManagerServiceImpl implements ManagerService {
         skuInfo.setIsSale(0);
         skuInfo.setId(skuId);
         skuInfoMapper.updateById(skuInfo);
-        // TODO: 2020/11/17 从索引库中删除库存信息
     }
 
     @Override
@@ -346,6 +344,16 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<BaseCategoryView> getBaseCategoryList() {
         return baseCategoryViewMapper.selectList(null);
+    }
+
+    @Override
+    public BaseTrademark getTrademark(Long tmId) {
+        return baseTrademarkMapper.selectById(tmId);
+    }
+
+    @Override
+    public List<BaseAttrInfo> getAttrList(Long skuId) {
+        return baseAttrInfoMapper.getAttrList(skuId);
     }
 
 

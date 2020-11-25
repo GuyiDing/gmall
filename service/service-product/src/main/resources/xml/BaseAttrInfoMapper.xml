@@ -31,4 +31,23 @@
         </where>
         order by bai.category_level, bai.id
     </select>
+
+    <resultMap id="getAttrListMap" type="com.atguigu.gmall.model.product.BaseAttrInfo" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="attrValueList" ofType="com.atguigu.gmall.model.product.BaseAttrValue">
+            <id column="vid" property="id"/>
+        </collection>
+    </resultMap>
+    <select id="getAttrList" resultMap="getAttrListMap">
+        select bai.id,
+               bai.attr_name,
+               bav.id vid,
+               bav.attr_id,
+               bav.value_name
+        from base_attr_info bai
+                 inner join base_attr_value bav on bai.id = bav.attr_id
+                 inner join sku_attr_value skv on bav.attr_id = skv.attr_id and bav.id = skv.value_id
+        where skv.sku_id = #{skuId}
+        order by bai.id;
+    </select>
 </mapper>

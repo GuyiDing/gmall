@@ -135,8 +135,8 @@ public class IndexController {
         context.setVariable("list", data);
         Writer writer = null;
         try {
-            writer = new PrintWriter(new File("D:\\index.html"), "UTF-8");
-            templateEngine.process("index/index.html", context, writer);
+            writer = new PrintWriter(new File("D:\\temp\\index.html"), "UTF-8");
+            templateEngine.process("index/index", context, writer);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

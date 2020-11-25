@@ -2,6 +2,7 @@ package com.atguigu.gmall.web.item.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.common.pool.ThreadPool;
+import com.atguigu.gmall.list.client.ListFeignClient;
 import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
@@ -31,6 +32,10 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ThreadPool threadPool;
 
+    @Autowired
+    private ListFeignClient listFeignClient;
+
+
     @Override
     public Map<String, Object> getItem(Long skuId) {
         Map map = new HashMap<>();
@@ -39,6 +44,7 @@ public class ItemServiceImpl implements ItemService {
             map.put("skuInfo", skuInfo);
             return skuInfo;
         }, threadPool.getThreadPool());
+
 
         CompletableFuture<Void> categoryViewCompletableFuture = skuInfoCompletableFuture.thenAcceptAsync(skuInfo -> {
             BaseCategoryView categoryView = productFeignClient.getCategoryView(skuInfo.getCategory3Id());
@@ -58,6 +64,10 @@ public class ItemServiceImpl implements ItemService {
         CompletableFuture<Void> valuesSkuJsonCompletableFuture = skuInfoCompletableFuture.thenAcceptAsync(skuInfo -> {
             Map<String, String> valuesSkuJson = productFeignClient.getSkuValueIdsMap(skuInfo.getSpuId());
             map.put("valuesSkuJson", JSON.toJSONString(valuesSkuJson));
+        }, threadPool.getThreadPool());
+
+        CompletableFuture.runAsync(() -> {
+            listFeignClient.incrHotScore(skuId);
         }, threadPool.getThreadPool());
 
         //等待线程都执行完成
