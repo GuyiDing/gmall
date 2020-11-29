@@ -56,4 +56,5 @@ public class ListApiController {
     public SearchResponseVo list(@RequestBody SearchParam searchParam){
         return listService.list(searchParam);
     }
+
 }

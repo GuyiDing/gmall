@@ -5,6 +5,7 @@ import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.product.client.ProductFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.TemplateEngine;
@@ -31,9 +32,16 @@ public class IndexController {
     @Resource
     private ProductFeignClient productFeignClient;
 
-    @GetMapping({"/","/index"})
-    public String index() {
-        return "index";
+    //    @GetMapping({"/","/index"})
+//    public String index() {
+//        return "index/index";
+//    }
+    @GetMapping("/")
+    public String index(Model model) {
+        //获取数据
+        List<Map<String, Object>> listMap = getData();
+        model.addAttribute("list", listMap);
+        return "index/index";
     }
 
     private List<Map<String, Object>> getData() {
@@ -65,7 +73,7 @@ public class IndexController {
                     mapList3.add(resultMap3);
                 }
 
-                resultMap2.put("categoryChild",mapList3 );
+                resultMap2.put("categoryChild", mapList3);
                 mapList2.add(resultMap2);
 
             }

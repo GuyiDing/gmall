@@ -25,5 +25,10 @@ public interface ListFeignClient {
     @PostMapping("/api/list")
     SearchResponseVo list(@RequestBody SearchParam listParam);
 
+    @GetMapping("/api/list/onSale/{skuId}")
+    Result onSale(@PathVariable("skuId") Long skuId);
 
+
+    @GetMapping("/api/list/cancel/{skuId}")
+    Result cancel(@PathVariable("skuId") Long skuId);
 }

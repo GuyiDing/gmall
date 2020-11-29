@@ -22,4 +22,14 @@ public class ListDegradeFeignClient  implements ListFeignClient {
     public SearchResponseVo list(SearchParam listParam) {
         return null;
     }
+
+    @Override
+    public Result onSale(Long skuId) {
+        return null;
+    }
+
+    @Override
+    public Result cancel(Long skuId) {
+        return null;
+    }
 }

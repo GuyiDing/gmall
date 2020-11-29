@@ -1,6 +1,5 @@
 package com.atguigu.gmall.web.item;
 
-import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.web.item.client.ItemFeignClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping
-public class controller {
+public class ItemController {
     @Resource
     private ItemFeignClient itemFeignClient;
 
