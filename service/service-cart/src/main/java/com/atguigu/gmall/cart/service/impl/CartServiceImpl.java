@@ -1,6 +1,6 @@
 package com.atguigu.gmall.cart.service.impl;
 
-import com.atguigu.gmall.cart.service.CartInfoMapper;
+import com.atguigu.gmall.cart.mapper.CartInfoMapper;
 import com.atguigu.gmall.cart.service.CartService;
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.model.cart.CartInfo;
@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
     private ProductFeignClient productFeignClient;
 
     @Override
-    public void addToCart(Long skuId, Integer skuNum, String userId) {
+    public CartInfo addToCart(Long skuId, Integer skuNum, String userId) {
         // 获取购物车的key
         String cartKey = getCartKey(userId);
         CartInfo cartInfo = cartInfoMapper.selectOne(new QueryWrapper<CartInfo>().eq("sku_id", skuId)
@@ -40,6 +40,7 @@ public class CartServiceImpl implements CartService {
             BigDecimal price = productFeignClient.getPrice(skuId);
             cartInfo.setCartPrice(price);
             cartInfo.setSkuNum(cartInfo.getSkuNum() + skuNum);
+            cartInfo.setIsChecked(1);
             cartInfoMapper.updateById(cartInfo);
         } else {
             //该用户第一次添加商品 需要新建一个购物车
@@ -51,12 +52,14 @@ public class CartServiceImpl implements CartService {
             cartInfo1.setSkuName(skuInfo.getSkuName());
             cartInfo1.setSkuId(skuId);
             cartInfo1.setUserId(userId);
-            cartInfoMapper.insert(cartInfo);
+            cartInfo1.setIsChecked(1);
+            cartInfoMapper.insert(cartInfo1);
             cartInfo = cartInfo1;
         }
         // 更新缓存
         redisTemplate.boundHashOps(cartKey).put(skuId.toString(), cartInfo);
         setCartInfoExpire(cartKey);
+        return cartInfo;
     }
 
     private void setCartInfoExpire(String cartKey) {

@@ -43,5 +43,5 @@ spring:
     host: 192.168.200.128
 
 authUrls:
-  url: /trade.html,/myOrder.html,/list.html
+  url: /trade.html,/myOrder.html
   loginUrl: //passport.gmall.com/login.html?originUrl=

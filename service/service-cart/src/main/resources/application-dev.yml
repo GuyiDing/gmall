@@ -3,7 +3,9 @@ server:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations:xml/*.xml
+    auto-mapping-behavior: full
+  mapper-locations: classpath:xml/*.xml
+  type-aliases-package: com.atguigu.gmall.model
 feign:
   sentinel:
     enabled: true
@@ -13,14 +15,6 @@ feign:
         readTimeout: 3000
         connectTimeout: 1000
 spring:
-  zipkin:
-    base-url: http://192.168.200.128:9411
-    discovery-client-enabled: false
-    sender:
-      type: web
-  sleuth:
-    sampler:
-      probability: 1
   cloud:
     sentinel:
       transport:
