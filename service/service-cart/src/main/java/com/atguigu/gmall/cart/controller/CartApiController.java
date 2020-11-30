@@ -31,7 +31,6 @@ public class CartApiController {
             userId = AuthContextHolder.getUserTempId(request);
         }
         cartService.addToCart(skuId, skuNum, userId);
-
         return userId;
     }
 }
