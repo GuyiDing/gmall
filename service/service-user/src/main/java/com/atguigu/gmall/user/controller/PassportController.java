@@ -2,6 +2,8 @@ package com.atguigu.gmall.user.controller;
 
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.util.AuthContextHolder;
+import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
 import com.atguigu.gmall.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +56,12 @@ public class PassportController {
     public Result logout(HttpServletRequest httpServletRequest) {
         redisTemplate.delete(RedisConst.USER_KEY_PREFIX + httpServletRequest.getHeader("token"));
         return Result.ok();
+    }
+
+    @GetMapping("/inner/address")
+    public List<UserAddress> getUserAddressList(HttpServletRequest request) {
+        String userId = AuthContextHolder.getUserId(request);
+        return userService.getUserAddressList(userId);
     }
 
 }

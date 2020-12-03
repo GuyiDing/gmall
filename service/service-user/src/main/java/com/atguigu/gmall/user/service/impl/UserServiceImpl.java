@@ -1,6 +1,8 @@
 package com.atguigu.gmall.user.service.impl;
 
+import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
+import com.atguigu.gmall.user.mapper.UserAddressMapper;
 import com.atguigu.gmall.user.mapper.UserInfoMapper;
 import com.atguigu.gmall.user.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @title: UserServiceImpl
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    @Resource
+    private UserAddressMapper userAddressMapper;
+
     @Override
     public UserInfo login(UserInfo userInfo) {
 
@@ -29,5 +35,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<UserAddress> getUserAddressList(String userId) {
+
+        return userAddressMapper.selectList(new QueryWrapper<UserAddress>().eq("user_id", userId));
+
     }
 }
