@@ -225,7 +225,7 @@
 		},
 
         created() {
-            debugger
+
             payment.createNative(this.orderId).then(response => {
                 this.data = response.data.data
                 let qrcode = new QRCode(document.getElementById("qrcode"), {

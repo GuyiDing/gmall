@@ -371,7 +371,7 @@
         methods: {
             init() {// 初始化加载购物车集合
                 cart.cartList().then(response => {
-                    this.data = response.data.data
+                    this.data = response.data.data,
                     this.compute()
                 })
             },

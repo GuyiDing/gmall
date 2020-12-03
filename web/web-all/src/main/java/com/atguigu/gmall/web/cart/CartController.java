@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,9 +24,25 @@ public class CartController {
     private CartFeignClient cartFeignClient;
 
     @GetMapping("/addCart.html")
-    public String addCart(Long skuId, Integer skuNum, HttpServletRequest request) {
-        CartInfo cartInfo = cartFeignClient.addToCart(skuId, skuNum);
-        request.setAttribute("cartInfo",cartInfo);
+    public ModelAndView addCart(Long skuId, Integer skuNum, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("skuId",skuId);
+        redirectAttributes.addAttribute("skuNum",skuNum);
+        cartFeignClient.addToCart(skuId, skuNum);
+        return new ModelAndView("redirect:http://cart.gmall.com/toCart");
+    }
+
+
+    @GetMapping("/toCart")
+    public String toCart(Long skuId,Integer skuNum, HttpServletRequest request) {
+        CartInfo cartInfo = cartFeignClient.toCart(skuId,skuNum);
+        request.setAttribute("cartInfo", cartInfo);
         return "cart/addCart";
+    }
+
+    //去购物车结算
+    @GetMapping("/cart.html")
+    public String cart(){
+        //购物车页面
+        return "cart/index";
     }
 }

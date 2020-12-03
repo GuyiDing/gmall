@@ -1,0 +1,24 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: canal
+  redis:
+    host: 192.168.200.128
+    port: 6379
+    database: 0
+    timeout: 1800000
+    password:
+    lettuce:
+      pool:
+        max-active: 20 #最大连接数
+        max-wait: -1    #最大阻塞等待时间(负数表示没限制)
+        max-idle: 5    #最大空闲
+        min-idle: 0     #最小空闲
+#canal配置
+canal:
+  client:
+    instances:
+      example:
+        host: 192.168.200.128
+        port: 11111

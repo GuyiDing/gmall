@@ -371,7 +371,7 @@
         methods: {
             init() {
                 cart.cartList().then(response => {
-                     debugger
+
                     this.data = response.data.data
 
                     this.compute()
@@ -428,7 +428,7 @@
             },
 
             trade() {
-                debugger
+
                 if(!auth.isLogin()) {
                     window.location.href = '/login.html?originUrl='+window.location.href
                     return

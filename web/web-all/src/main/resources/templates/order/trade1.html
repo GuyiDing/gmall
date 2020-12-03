@@ -341,7 +341,7 @@
 
             submitOrder() {
                 trade.submitOrder(this.order, this.data.tradeNo).then(response => {
-                    debugger
+
                     if (response.data.code == 200) {
                         window.location.href = '/success.html?orderId=' + response.data.data
                     } else {
@@ -352,7 +352,7 @@
             },
 
             selectAddress(addressId) {
-                debugger
+
                 this.data.userAddressList.forEach((item, index) => {
                     if(item.id == addressId) {
                         item.isDefault = 1
