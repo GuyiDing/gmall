@@ -4,6 +4,8 @@ import com.atguigu.gmall.common.cache.GmallCache;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
 import com.atguigu.gmall.product.service.ManagerService;
+import com.atguigu.gmall.rabbit.constants.MQConst;
+import com.atguigu.gmall.rabbit.service.RabbitService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -243,13 +245,17 @@ public class ManagerServiceImpl implements ManagerService {
         });
 
     }
-
+    @Autowired
+    private RabbitService rabbitService;
     @Override
     public void onSale(Long skuId) {
         SkuInfo skuInfo = new SkuInfo();
         skuInfo.setIsSale(1);
         skuInfo.setId(skuId);
         skuInfoMapper.updateById(skuInfo);
+        rabbitService.sendMessage(MQConst.EXCHANGE_DIRECT_GOODS, MQConst.ROUTING_GOODS_UPPER, skuId);
+
+
     }
 
     @Override

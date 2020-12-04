@@ -44,7 +44,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public Boolean getStock(OrderDetail orderDetail) {
 
-        return "1".equals(HttpClientUtil.doGet(url + "/hsaStock?skuId=" + orderDetail.getSkuId() + "&num=" + orderDetail.getSkuNum()));
+        return "1".equals(HttpClientUtil.doGet(url + "/hasStock?skuId=" + orderDetail.getSkuId() + "&num=" + orderDetail.getSkuNum()));
 
     }
 
