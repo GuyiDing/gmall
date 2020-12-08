@@ -264,6 +264,7 @@ public class ManagerServiceImpl implements ManagerService {
         skuInfo.setIsSale(0);
         skuInfo.setId(skuId);
         skuInfoMapper.updateById(skuInfo);
+        rabbitService.sendMessage(MQConst.EXCHANGE_DIRECT_GOODS, MQConst.ROUTING_GOODS_LOWER, skuId);
     }
 
     @Override

@@ -37,6 +37,14 @@ spring:
           uri: lb://service-cart
           predicates:
             - Path=/*/cart/**
+        - id: service-payment
+          uri: lb://service-payment
+          predicates:
+            - Path=/*/payment/**
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/*/order/**
         #==================web前端==========================
         - id: web-all
           uri: lb://web-all

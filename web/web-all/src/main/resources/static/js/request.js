@@ -21,9 +21,6 @@ request.interceptors.request.use(function(config){
 });
 //添加一个响应拦截器
 request.interceptors.response.use(function(response){
-    //在这里对返回的数据进行处理
-    // debugger
-    console.log(JSON.stringify(response))
 
     if (response.data.code == 208) {
         window.location.href = 'http://passport.gmall.com/login.html?originUrl='+window.location.href

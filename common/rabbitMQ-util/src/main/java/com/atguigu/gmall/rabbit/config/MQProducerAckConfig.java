@@ -29,8 +29,8 @@ public class MQProducerAckConfig implements RabbitTemplate.ConfirmCallback, Rabb
 
     @PostConstruct
     public void init() {
-        rabbitTemplate.setConfirmCallback(this::confirm);
-        rabbitTemplate.setReturnCallback(this::returnedMessage);
+        rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setReturnCallback(this);
     }
 
     //生产者与交换机之间的消息丢失处理
@@ -85,9 +85,9 @@ public class MQProducerAckConfig implements RabbitTemplate.ConfirmCallback, Rabb
             return;
         }
         Object o = redisTemplate.opsForHash().get(MQConst.EXCHANGE_KEY_REDIS, uuid);
-        if (o == null) {// TODO: 2020/12/4 还没有确定类型是否需要解析 2020年12月4日17:48:35
+        if (o == null) {
             return;
         }
-        retrySendMessage((CorrelationData) o);
+        retrySendMessage((GmallCorrelationData) o);
     }
 }

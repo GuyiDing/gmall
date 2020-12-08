@@ -7,7 +7,6 @@ import java.util.List;
 public interface CartService {
     CartInfo addToCart(Long skuId, Integer skuNum, String userId);
 
-
     CartInfo toCart(Long skuId, Integer skuNum,String userId);
 
     List<CartInfo> getCartList(String userId,String userTempId);

@@ -60,4 +60,7 @@ public class TradeController {
         model.addAttribute("totalAmount",totalAmount);
         return "/order/trade";
     }
+
+
+
 }

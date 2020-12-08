@@ -15,6 +15,7 @@ import java.util.UUID;
  * @Author LiuXianKun
  * @Date: 2020/12/4 16:22
  */
+@SuppressWarnings("Duplicates")
 @Component
 public class RabbitService {
 
@@ -24,7 +25,7 @@ public class RabbitService {
     private RedisTemplate redisTemplate;
 
     //发送消息
-    public void sendMessage(String exchange,String routingKey,Object message) {
+    public void sendMessage(String exchange, String routingKey, Object message) {
         GmallCorrelationData gmallCorrelationData = new GmallCorrelationData();
         String uuid = UUID.randomUUID().toString();
         gmallCorrelationData.setId(uuid);
@@ -36,7 +37,29 @@ public class RabbitService {
         gmallCorrelationData.setMessage(message);
 
         redisTemplate.opsForHash().put(MQConst.EXCHANGE_KEY_REDIS, uuid, JSONObject.toJSON(gmallCorrelationData));
-        rabbitTemplate.convertAndSend(exchange,routingKey,message,gmallCorrelationData);
+        rabbitTemplate.convertAndSend(exchange, routingKey, message, gmallCorrelationData);
     }
 
+
+    //发送延迟消息（通过死信交换机完成该功能）
+    public void sendDelayMessage(String exchange, String routingKey, Object message, int delayTime) {
+        GmallCorrelationData gmallCorrelationData = new GmallCorrelationData();
+        String uuid = UUID.randomUUID().toString();
+        gmallCorrelationData.setId(uuid);
+        //交换机
+        gmallCorrelationData.setExchange(exchange);
+        //路由Key
+        gmallCorrelationData.setRoutingKey(routingKey);
+        //消息
+        gmallCorrelationData.setMessage(message);
+        //设置延迟时间
+        gmallCorrelationData.setDelay(true);
+        gmallCorrelationData.setDelayTime(delayTime);// TODO: 2020/12/8 2020年12月8日22:00:42 发现未知错误
+        redisTemplate.opsForHash().put(MQConst.EXCHANGE_KEY_REDIS_Delay, uuid, JSONObject.toJSON(gmallCorrelationData));
+        rabbitTemplate.convertAndSend(exchange, routingKey, message, message1 -> {
+            message1.getMessageProperties().setDelay(delayTime * 1000);
+            return message1;
+        }, gmallCorrelationData);
+
+    }
 }

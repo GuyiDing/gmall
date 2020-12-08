@@ -31,7 +31,7 @@ public class CartApiController {
             userId = AuthContextHolder.getUserTempId(request);
         }
         CartInfo cartInfo = cartService.addToCart(skuId, skuNum, userId);
-        return Result.ok(cartInfo).message("添加成功");
+        return Result.ok(cartInfo.getSkuNum()).message("添加成功");
     }
 
 

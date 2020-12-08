@@ -400,6 +400,7 @@
             },
 
             down(item) {
+                console.log("aaaaaaa:"+item.skuNum)
                 if(item.skuNum > 1) {
                     this.addToCart(item.skuId, -1)
                 }

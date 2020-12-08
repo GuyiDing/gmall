@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -66,5 +68,25 @@ public class OrderApiController {
         return Result.ok(orderId);
     }
 
+    @GetMapping("/auth/getOrderInfo/{orderId}")
+    public OrderInfo getOrderInfo(@PathVariable Long orderId) {
+        return orderInfoService.getOrderInfo(orderId);
+    }
+
+    //由库存系统发起申请  折单接口
+    // http://order.gmall.com/api/order/orderSplit?orderId=xxx&wareSkuMap=xxx
+    @PostMapping("/orderSplit")
+    public List<Map> orderSplit(Long orderId ,String wareSkuMap) {
+        //wareSkuMap  [{"wareId":"1","skuIds":["1"]},{"wareId":"2","skuIds":["10","13"]}]
+        //1:订单微服务就要开始折单   父订单 折成多个子订单
+        List<OrderInfo> orderInfoList = orderInfoService.orderSplit(orderId, wareSkuMap);
+        List<Map> listMap = new ArrayList<>();
+        orderInfoList.forEach(orderInfo -> {
+            Map<String, Object> map = orderInfoService.initWareOrder(orderInfo);
+            listMap.add(map);
+        });
+
+        return listMap;
+    }
 
 }
