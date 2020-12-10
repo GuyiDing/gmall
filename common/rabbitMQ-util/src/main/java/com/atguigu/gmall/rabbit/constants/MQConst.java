@@ -54,4 +54,16 @@ public class MQConst {
     public static final String ROUTING_TASK_1 = "seckill.task.1";
     //队列
     public static final String QUEUE_TASK_1  = "queue.task.1";
+
+    //用户锁定时间 单位：秒
+    public static final int SECKILL__TIMEOUT = 60 * 60;
+
+
+    /**
+     * 秒杀
+     */
+    public static final String EXCHANGE_DIRECT_SECKILL_USER = "exchange.direct.seckill.user";
+    public static final String ROUTING_SECKILL_USER = "seckill.user";
+    //队列
+    public static final String QUEUE_SECKILL_USER  = "queue.seckill.user";
 }

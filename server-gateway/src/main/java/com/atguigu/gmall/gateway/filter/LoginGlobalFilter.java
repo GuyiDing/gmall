@@ -60,7 +60,6 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
             if (null == userId) {
                 return out(response, ResultCodeEnum.LOGIN_AUTH);
             }
-
         }
         //2：内部资源  网关不给访问
         if (pathMatcher.match("/**/inner/**", path)) {
