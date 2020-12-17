@@ -98,8 +98,7 @@
         </dependencies>
     </dependencyManagement>
 
-<!--
-    &lt;!&ndash;maven 的中央仓库？ 私服{nexus}？ setting.xml&ndash;&gt;
+
     <repositories>
         <repository>
             <id>nexus-aliyun</id>
@@ -114,7 +113,7 @@
             </releases>
         </repository>
     </repositories>
--->
+
 
 
 
