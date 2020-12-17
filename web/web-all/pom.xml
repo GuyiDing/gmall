@@ -12,7 +12,7 @@
     <artifactId>web-all</artifactId>
     <version>1.0</version>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>web-all</name>
     <description>web-all</description>
 
@@ -53,7 +53,6 @@
             <groupId>com.atguigu.gmall</groupId>
             <artifactId>service-activity-client</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
