@@ -73,12 +73,11 @@ public class GmallCacheAspect {
                 e.printStackTrace();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-            }finally {
+            } finally {
                 //解锁
                 redissonClient.getLock(lockKey).unlock();
             }
         }
         return null;
     }
-
 }

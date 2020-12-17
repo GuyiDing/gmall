@@ -97,11 +97,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         //3:删除购物车中提交了订单的商品
         // delete from 表 where  (sku_id = 10 and  user_id = 3 ) or (sku_id = 14 and  user_id = 3 ) or
-//        cartInfoMapper.delete(cartInfoQueryWrapper);
-//        rabbitService.sendDelayMessage(MQConst.EXCHANGE_DIRECT_ORDER_CANCEL,
-//                MQConst.ROUTING_ORDER_CANCEL1,
-//                orderInfo.getId(),
-//                10);
+        cartInfoMapper.delete(cartInfoQueryWrapper);
+        rabbitService.sendDelayMessage(MQConst.EXCHANGE_DIRECT_ORDER_CANCEL,
+                MQConst.ROUTING_ORDER_CANCEL1,
+                orderInfo.getId(),
+                10);
         // TODO: 2020/12/7 先暂时取消MQ的发送  不要关闭订单
         return orderInfo.getId();
     }

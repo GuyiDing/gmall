@@ -43,7 +43,7 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //判断是否登录    token   Http请求的时候的请求或响应吗？
+        //判断是否登录    token   Http请求的时候的请求或响应码
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest request = exchange.getRequest();
 
