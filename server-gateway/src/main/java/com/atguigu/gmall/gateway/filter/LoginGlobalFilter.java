@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.result.ResultCodeEnum;
 import com.atguigu.gmall.gateway.constant.RedisConst;
+import org.apache.logging.log4j.spi.CopyOnWrite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -23,6 +24,9 @@ import reactor.core.publisher.Mono;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @title: LoginGlobalFilter
@@ -36,7 +40,6 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
     private String[] authUrl;
     @Value("${authUrls.loginUrl}")
     private String loginUrl;
-
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -65,7 +68,6 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
         if (pathMatcher.match("/**/inner/**", path)) {
             return out(response, ResultCodeEnum.PERMISSION);
         }
-
         //3：访问页面微服务的时候  同步请求
         //首页 /
         //搜索 list.html
@@ -77,6 +79,7 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
         for (String url : authUrl) {
             if (url.equals(path)) {
                 //判断是否登录
+
                 //未登录  重定向到登录页面   保存的用户信息
                 if (null == userId) {
                     //设置重定向的地址 注意 路径可能带中文   从哪里来回哪里去
@@ -87,6 +90,7 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
                     }
                     //设置response支持重定向
                     response.setStatusCode(HttpStatus.SEE_OTHER);
+
                     return response.setComplete();  //必不可少
                 }
             }
@@ -125,9 +129,12 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         //将json设置到响应报文的响应体中
         Mono body = Mono.just(response.bufferFactory().wrap(s.getBytes(StandardCharsets.UTF_8)));
-
+        System.out.println("wda");
+        System.out.println("da");
         return response.writeWith(body);
     }
+
+
 
     private String getToken(ServerHttpRequest request) {
         String token = request.getHeaders().getFirst("token");
@@ -138,6 +145,7 @@ public class LoginGlobalFilter implements GlobalFilter, Ordered {
         } else {
             //3：没有 再获取Cookie
             HttpCookie cookie = request.getCookies().getFirst("token");
+
             if (null != cookie) {
                 String value = cookie.getValue();
                 if (null != value) {

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
@@ -16,8 +18,10 @@ import org.springframework.util.StringUtils;
  * @author qy
  */
 @Data
-@Configuration
-@ConfigurationProperties("spring.redis")
+@Component
+@ConfigurationProperties(prefix = "spring.redis")
+@PropertySource("spring.redis")  //应该是能用的
+
 public class RedissonConfig {
 
     private String host;

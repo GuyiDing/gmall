@@ -3,6 +3,7 @@ package com.xpand.starter.canal.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -10,6 +11,7 @@ import java.util.*;
  * @author chen.qian
  * @date 2018/3/16
  */
+@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ConfigurationProperties(prefix = "canal.client")
 public class CanalConfig {
